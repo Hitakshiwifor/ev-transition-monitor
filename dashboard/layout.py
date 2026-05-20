@@ -189,17 +189,18 @@ def _header(last_updated: str) -> html.Header:
         className="topbar",
         children=[
             html.Div(
-                className="brand-area",
+                className="topbar-left",
                 children=[
-                    html.Div("EV", className="brand-mark"),
-                    html.Div(
-                        children=[
-                            html.H1("European EV Transition Monitor", className="app-title"),
-                            html.P(
-                                "Tracking Europe's shift from ICE to electric and hybrid mobility",
-                                className="app-subtitle",
-                            ),
-                        ]
+                    html.Img(src="/assets/favicon.ico", className="brand-logo"),
+                ],
+            ),
+            html.Div(
+                className="topbar-center",
+                children=[
+                    html.H1("European EV Transition Monitor", className="app-title"),
+                    html.P(
+                        "Tracking Europe's shift from ICE to electric and hybrid mobility",
+                        className="app-subtitle",
                     ),
                 ],
             ),
