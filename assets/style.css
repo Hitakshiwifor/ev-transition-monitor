@@ -80,8 +80,8 @@ input {
 }
 
 .brand-logo {
-  width: 42px;
-  height: 42px;
+  max-height: 42px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -97,7 +97,7 @@ input {
   line-height: 1.1;
   font-weight: 800;
   letter-spacing: 0;
-  color: var(--ink);
+  color: rgb(0, 54, 98);
 }
 
 .app-subtitle {

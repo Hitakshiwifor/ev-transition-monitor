@@ -191,7 +191,7 @@ def _header(last_updated: str) -> html.Header:
             html.Div(
                 className="topbar-left",
                 children=[
-                    html.Img(src="/assets/favicon.ico", className="brand-logo"),
+                    html.Img(src="/assets/logo.png", className="brand-logo"),
                 ],
             ),
             html.Div(
