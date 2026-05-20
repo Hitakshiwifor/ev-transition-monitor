@@ -768,28 +768,83 @@ input {
   border-radius: 999px;
 }
 
-@media (max-width: 1500px) {
+/* ── Medium screens: 13-14" laptops (1100–1399 px wide) ───────
+   Switch to a scrollable layout so nothing gets squashed.
+   Each grid row gets an explicit height → charts stay readable. */
+@media (max-width: 1399px) {
+
+  /* Allow vertical scrolling */
+  html, body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .dashboard-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .dashboard-main {
+    flex: none;
+    overflow: visible;
+    padding-bottom: 20px;
+  }
+
+  /* Filter bar */
   .filter-panel {
     grid-template-columns: 200px 220px 1fr 90px;
   }
 
+  /* KPI: 3 per row instead of 6 */
   .kpi-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  /* Grids opt out of the flex-shrink chain; get explicit heights */
+  .grid {
+    flex: none;
+  }
+
+  /* Primary: trend spans full width on row 1; mix + share on row 2 */
   .grid--primary {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 300px 280px;
   }
 
   .panel--trend {
     grid-column: 1 / -1;
   }
+
+  /* Secondary: map | ranking | stack in one tall row */
+  .grid--secondary {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(220px, 0.75fr);
+    grid-template-rows: 400px;
+  }
+
+  /* Panel-stack must fill its grid cell so both mini-charts split evenly */
+  .panel-stack {
+    height: 100%;
+  }
+
+  .panel-stack > .panel {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  /* Charts keep a minimum usable height */
+  .dashboard-graph {
+    min-height: 140px;
+  }
 }
 
+/* ── Small screens / tablets (≤ 980 px) ───────────────────── */
 @media (max-width: 980px) {
+
   .topbar {
     align-items: flex-start;
     flex-direction: column;
+    gap: 8px;
   }
 
   .topbar-actions {
@@ -798,26 +853,14 @@ input {
     flex-wrap: wrap;
   }
 
-  .filter-panel,
-  .grid--primary,
-  .grid--secondary {
-    grid-template-columns: 1fr;
+  /* Filter: 2 columns, scope spans full width */
+  .filter-panel {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
-  .panel-stack {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .panel-stack > .panel {
-    flex: 1 1 260px;
-  }
-
-  .filter-field--powertrain,
-  .reset-button,
-  .panel--trend,
-  .panel--map {
-    grid-column: auto;
+  .filter-field--scope {
+    grid-column: 1 / -1;
   }
 
   .powertrain-control,
@@ -836,8 +879,34 @@ input {
     margin: 0 6px 6px 0;
   }
 
+  /* KPI: 2 per row */
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* All charts stack in a single column */
+  .grid--primary {
+    grid-template-columns: 1fr;
+    grid-template-rows: 320px 300px 300px;
+  }
+
+  .panel--trend {
+    grid-column: auto;
+  }
+
+  .grid--secondary {
+    grid-template-columns: 1fr;
+    grid-template-rows: 380px 420px 480px;
+  }
+
+  .panel-stack {
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .panel-stack > .panel {
+    flex: 1 1 0;
+    min-height: 180px;
   }
 
   .ranking-table {
@@ -845,43 +914,45 @@ input {
   }
 }
 
+/* ── Mobile (≤ 620 px) ─────────────────────────────────────── */
 @media (max-width: 620px) {
   .topbar,
   .dashboard-main {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .filter-panel,
   .source-footer {
-    margin-left: 14px;
-    margin-right: 14px;
+    margin-left: 12px;
+    margin-right: 12px;
   }
 
-  .brand-mark {
-    width: 44px;
-    height: 44px;
-    font-size: 13px;
+  /* Filter: single column on mobile */
+  .filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-field--scope,
+  .filter-field--country {
+    grid-column: auto;
   }
 
   .app-title {
-    font-size: 23px;
+    font-size: 20px;
   }
 
+  .brand-logo {
+    max-height: 32px;
+  }
+
+  /* KPI: single column */
   .kpi-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .kpi-card {
-    min-height: 116px;
+    grid-template-columns: 1fr 1fr;
   }
 
   .year-range-control {
-    grid-template-columns: 1fr;
-  }
-
-  .year-separator {
-    display: none;
+    grid-template-columns: 1fr auto 1fr;
   }
 
   .download-button {
@@ -890,5 +961,14 @@ input {
 
   .footer-updated {
     margin-left: 0;
+  }
+
+  /* Taller chart rows on mobile since columns are gone */
+  .grid--primary {
+    grid-template-rows: 280px 260px 260px;
+  }
+
+  .grid--secondary {
+    grid-template-rows: 340px 380px 440px;
   }
 }
