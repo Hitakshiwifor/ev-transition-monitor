@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+.env
+*.env
+
+# Tools
+.ruff_cache/
+.claude/
+.python-version
+
+# Raw & intermediate data (only gold/ is needed by the dashboard)
+data/bronze/*
+!data/bronze/.gitkeep
+data/silver/*
+!data/silver/.gitkeep
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Development-only files
+dashboard_wireframe.png
+generate_wireframe.py
+ev_transition_article*.docx
+
+# OS
+.DS_Store
+Thumbs.db
