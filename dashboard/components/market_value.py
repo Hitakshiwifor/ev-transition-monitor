@@ -53,7 +53,7 @@ def build_market_value_chart(
             x=data["year"],
             y=data["market_value_eur_bn"],
             name="Market Value",
-            marker=dict(color="#2f7df6", line=dict(width=0), cornerradius=3),
+            marker=dict(color="#003662", line=dict(width=0), cornerradius=3),
             hovertemplate="<b>%{x}</b><br>Market value: EUR %{y:.1f} bn<extra></extra>",
             text=data["market_value_eur_bn"].apply(lambda value: f"{value:.0f}"),
             textposition="outside",
@@ -75,11 +75,11 @@ def _apply_layout(fig: go.Figure, height: int) -> None:
         showlegend=False,
         hovermode="x unified",
         hoverlabel=dict(
-            bgcolor="#071437",
+            bgcolor="#003662",
             font_color="white",
             font_size=12,
             font_family="Inter, sans-serif",
-            bordercolor="#071437",
+            bordercolor="#003662",
         ),
         xaxis=dict(
             showgrid=False,

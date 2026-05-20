@@ -47,14 +47,13 @@ def build_map_chart(
         metric, ("BEV Share", "%{z:.1f}%", [0, 70])
     )
 
-    # WifOR teal colour scale
+    # WifOR brand colour scale: white → Hellblau → Petrol → Navy
     colorscale = [
-        [0.0, "#f4f7fb"],
-        [0.18, "#cfe1f9"],
-        [0.40, "#73aaf7"],
-        [0.62, "#26b99a"],
-        [0.82, "#0aa15f"],
-        [1.0, "#036847"],
+        [0.00, "#F4F8FA"],   # near-white
+        [0.25, "#C8DCF0"],   # very light blue
+        [0.50, "#83B6EF"],   # Hellblau  rgb(131,182,239)
+        [0.75, "#77C6BE"],   # Petrol    rgb(119,198,190)
+        [1.00, "#003662"],   # WifOR Blau rgb(0,54,98)
     ]
 
     z_values = df[metric].tolist()

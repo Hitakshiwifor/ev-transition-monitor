@@ -43,13 +43,16 @@ def build_forecast_chart(
     phev_actual = data[(data["powertrain"] == "PHEV") & (data["series_type"] == "actual")].sort_values("year")
     phev_proj   = data[(data["powertrain"] == "PHEV") & (data["series_type"] == "projection")].sort_values("year")
 
+    _BEV_COL  = "#003662"   # WifOR Blau
+    _PHEV_COL = "#77C6BE"   # WifOR Petrol
+
     all_proj = data[data["series_type"] == "projection"]
     if not all_proj.empty:
         fig.add_vrect(
             x0=float(all_proj["year"].min()) - 0.5,
             x1=float(all_proj["year"].max()) + 0.5,
-            fillcolor="#f5f0ff",
-            opacity=0.5,
+            fillcolor="#EBF3FA",
+            opacity=0.6,
             line_width=0,
             layer="below",
         )
@@ -58,11 +61,11 @@ def build_forecast_chart(
             y=40,
             text="IEA STEPS Projection",
             showarrow=False,
-            font=dict(size=10, color="#8b45d9"),
+            font=dict(size=10, color="#003662"),
             xanchor="center",
         )
 
-    fig.add_vline(x=2024.5, line_width=1, line_dash="dot", line_color="#c5cedb")
+    fig.add_vline(x=2024.5, line_width=1, line_dash="dot", line_color="#D9D9D9")
 
     if not bev_actual.empty:
         fig.add_trace(go.Scatter(
@@ -70,8 +73,8 @@ def build_forecast_chart(
             y=bev_actual["ev_sales_share_pct"],
             mode="lines+markers",
             name="BEV (Observed)",
-            line=dict(color="#0aa15f", width=2.4),
-            marker=dict(size=5, color="#0aa15f", line=dict(color="white", width=1)),
+            line=dict(color=_BEV_COL, width=2.4),
+            marker=dict(size=5, color=_BEV_COL, line=dict(color="white", width=1)),
             hovertemplate="<b>BEV Observed</b><br>%{x}: %{y:.1f}%<extra></extra>",
         ))
     if not bev_proj.empty:
@@ -80,8 +83,8 @@ def build_forecast_chart(
             y=bev_proj["ev_sales_share_pct"],
             mode="lines+markers",
             name="BEV STEPS 2025",
-            line=dict(color="#0aa15f", width=2.2, dash="dash"),
-            marker=dict(size=4, color="#0aa15f", line=dict(color="white", width=1)),
+            line=dict(color=_BEV_COL, width=2.2, dash="dash"),
+            marker=dict(size=4, color=_BEV_COL, line=dict(color="white", width=1)),
             hovertemplate="<b>BEV STEPS</b><br>%{x}: %{y:.1f}%<extra></extra>",
         ))
     if not phev_actual.empty:
@@ -90,8 +93,8 @@ def build_forecast_chart(
             y=phev_actual["ev_sales_share_pct"],
             mode="lines+markers",
             name="PHEV (Observed)",
-            line=dict(color="#8b45d9", width=2.4),
-            marker=dict(size=5, color="#8b45d9", line=dict(color="white", width=1)),
+            line=dict(color=_PHEV_COL, width=2.4),
+            marker=dict(size=5, color=_PHEV_COL, line=dict(color="white", width=1)),
             hovertemplate="<b>PHEV Observed</b><br>%{x}: %{y:.1f}%<extra></extra>",
         ))
     if not phev_proj.empty:
@@ -100,8 +103,8 @@ def build_forecast_chart(
             y=phev_proj["ev_sales_share_pct"],
             mode="lines+markers",
             name="PHEV STEPS 2025",
-            line=dict(color="#8b45d9", width=2.2, dash="dash"),
-            marker=dict(size=4, color="#8b45d9", line=dict(color="white", width=1)),
+            line=dict(color=_PHEV_COL, width=2.2, dash="dash"),
+            marker=dict(size=4, color=_PHEV_COL, line=dict(color="white", width=1)),
             hovertemplate="<b>PHEV STEPS</b><br>%{x}: %{y:.1f}%<extra></extra>",
         ))
 
@@ -127,11 +130,11 @@ def _apply_layout(fig: go.Figure, height: int) -> None:
         ),
         hovermode="x unified",
         hoverlabel=dict(
-            bgcolor="#071437",
+            bgcolor="#003662",
             font_color="white",
             font_size=12,
             font_family="Inter, sans-serif",
-            bordercolor="#071437",
+            bordercolor="#003662",
         ),
         xaxis=dict(
             showgrid=False,

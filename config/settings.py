@@ -50,31 +50,42 @@ DASH_DEBUG   = os.getenv("DASH_DEBUG", "false").lower() == "true"
 
 # ── WifOR Brand Colours ──────────────────────────────────────
 WIFOR_COLORS = {
-    "navy":          "#003A5D",   # Primary deep navy
-    "teal":          "#00929A",   # WifOR signature teal
-    "teal_mid":      "#47B8BE",   # Medium teal
-    "teal_light":    "#A8DEE0",   # Light teal
-    "teal_pale":     "#E4F5F6",   # Very light teal background
-    "orange":        "#F07800",   # Accent orange
-    "orange_light":  "#FFE8CC",   # Light orange tint
+    # Primary brand
+    "navy":          "#003662",   # WifOR Blau   rgb(0,54,98)
+    "red":           "#CC3A45",   # WifOR Rot    rgb(204,58,69)
     "white":         "#FFFFFF",
-    "bg_light":      "#F4F8FA",   # Page background
-    "text_dark":     "#1A2B3C",   # Primary text
-    "text_muted":    "#6B8090",   # Secondary / muted text
-    "border":        "#D8E6EA",   # Subtle border
-    # Powertrain palette (consistent across all charts)
-    "bev":           "#00929A",   # BEV → WifOR teal
-    "phev":          "#47B8BE",   # PHEV → medium teal
-    "hev":           "#A8DEE0",   # HEV → light teal
-    "ice_petrol":    "#F07800",   # Petrol ICE → orange
-    "ice_diesel":    "#B05800",   # Diesel ICE → dark orange
-    "other":         "#6B8090",   # Other → muted
+    # Screen secondary palette
+    "teal":          "#77C6BE",   # Petrol       rgb(119,198,190)
+    "teal_mid":      "#83B6EF",   # Hellblau     rgb(131,182,239)
+    "teal_light":    "#A5CD71",   # Grün         rgb(165,205,113)
+    "teal_pale":     "#F4F8FA",   # Near-white background
+    "orange":        "#F48D40",   # Orange       rgb(244,141,64)
+    "orange_light":  "#FEF0E4",   # Light orange tint
+    "yellow":        "#DBCA71",   # Gelb         rgb(219,202,113)
+    "pink":          "#FC6775",   # Pink         rgb(252,103,117)
+    # Greys
+    "grey1":         "#D9D9D9",   # Grau 1
+    "grey2":         "#BFBFBF",   # Grau 2
+    "grey3":         "#A6A6A6",   # Grau 3
+    "grey4":         "#7F7F7F",   # Grau 4
+    # UI tokens
+    "bg_light":      "#F4F8FA",
+    "text_dark":     "#003662",   # WifOR navy for headings
+    "text_muted":    "#7F7F7F",   # Grau 4
+    "border":        "#D9D9D9",   # Grau 1
+    # Powertrain palette — consistent across ALL charts
+    "bev":           "#003662",   # BEV        → WifOR Blau
+    "phev":          "#77C6BE",   # PHEV       → Petrol
+    "hev":           "#83B6EF",   # HEV        → Hellblau
+    "ice_petrol":    "#F48D40",   # ICE Petrol → Orange
+    "ice_diesel":    "#CC3A45",   # ICE Diesel → Rot
+    "other":         "#A6A6A6",   # Other      → Grau 3
 }
 
 # ── EU Countries of interest ─────────────────────────────────
 FORECAST_SOURCE_COLORS = {
-    "IEA Global EV Outlook 2025 - STEPS": "#003A5D",
-    "ACEA latest EU actual": "#F07800",
+    "IEA Global EV Outlook 2025 - STEPS": "#003662",
+    "ACEA latest EU actual": "#F48D40",
 }
 
 EU_COUNTRIES = {

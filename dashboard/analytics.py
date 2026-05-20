@@ -32,13 +32,13 @@ POWERTRAIN_LABELS = {
 }
 
 POWERTRAIN_COLORS = {
-    "BEV": "#0aa15f",
-    "PHEV": "#8b45d9",
-    "HEV": "#ff9700",
-    "ICE_Petrol": "#2f7df6",
-    "ICE_Diesel": "#5f6b82",
-    "Other": "#9aa6b2",
-    "TOTAL": "#071437",
+    "BEV":       "#003662",   # WifOR Blau   rgb(0,54,98)
+    "PHEV":      "#77C6BE",   # Petrol       rgb(119,198,190)
+    "HEV":       "#83B6EF",   # Hellblau     rgb(131,182,239)
+    "ICE_Petrol":"#F48D40",   # Orange       rgb(244,141,64)
+    "ICE_Diesel":"#CC3A45",   # Rot          rgb(204,58,69)
+    "Other":     "#A6A6A6",   # Grau 3
+    "TOTAL":     "#7F7F7F",   # Grau 4
 }
 
 EU27_CODES = set(EU_COUNTRIES) - {"NO", "IS", "CH", "UK"}

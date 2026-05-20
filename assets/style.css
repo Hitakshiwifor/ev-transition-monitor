@@ -7,17 +7,17 @@
   --muted: #667085;
   --border: #dfe5ef;
   --border-soft: #eef2f7;
-  --blue: #0958f5;
-  --blue-soft: #eaf1ff;
-  --green: #0aa15f;
-  --green-soft: #e9f8f0;
-  --emerald: #0b8f61;
-  --purple: #8b45d9;
-  --purple-soft: #f1eafd;
-  --orange: #ff9700;
-  --orange-soft: #fff3df;
-  --red: #ef3d3d;
-  --red-soft: #ffe9e9;
+  --blue: #003662;        /* WifOR Blau   rgb(0,54,98)       */
+  --blue-soft: #d6e6f4;   /* light tint of WifOR Blau       */
+  --green: #77C6BE;       /* WifOR Petrol rgb(119,198,190)  */
+  --green-soft: #e2f6f4;  /* light tint of Petrol           */
+  --emerald: #77C6BE;     /* same as Petrol                 */
+  --purple: #83B6EF;      /* WifOR Hellblau rgb(131,182,239)*/
+  --purple-soft: #e8f2fc; /* light tint of Hellblau         */
+  --orange: #F48D40;      /* WifOR Orange rgb(244,141,64)   */
+  --orange-soft: #fef0e4; /* light tint of Orange           */
+  --red: #CC3A45;         /* WifOR Rot    rgb(204,58,69)    */
+  --red-soft: #fae5e7;    /* light tint of Rot              */
   --shadow: 0 10px 28px rgba(16, 24, 40, 0.08);
   --shadow-soft: 0 4px 16px rgba(16, 24, 40, 0.06);
   --radius: 8px;
