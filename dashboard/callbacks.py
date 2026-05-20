@@ -4,7 +4,7 @@ Dash callbacks for the EV Transition Monitor dashboard.
 
 from __future__ import annotations
 
-from dash import ALL, Input, Output, State, ctx, dcc, html, no_update
+from dash import ALL, Input, Output, State, ctx, dcc, no_update
 
 from dashboard.analytics import (
     ALL_COUNTRIES,
@@ -13,7 +13,6 @@ from dashboard.analytics import (
     aggregate_powertrain,
     available_actual_years,
     country_snapshot,
-    format_generated_at,
     kpi_summary,
     market_value_series,
     normalize_year_range,
@@ -33,11 +32,11 @@ _CHART_H_PRIMARY = 155
 _CHART_H_BOTTOM  = 155
 
 
-def _defaults() -> tuple[int, int, str, str, list[str]]:
+def _defaults() -> tuple[int, int, str, str]:
     data = load_all()
     years = available_actual_years(data)
     year_from, year_to = normalize_year_range(2015, years[-1] if years else 2024, years)
-    return year_from, year_to, ALL_COUNTRIES, DEFAULT_SCOPE, DEFAULT_POWERTRAINS
+    return year_from, year_to, ALL_COUNTRIES, DEFAULT_SCOPE
 
 
 def register_callbacks(app) -> None:
@@ -50,7 +49,7 @@ def register_callbacks(app) -> None:
         prevent_initial_call=True,
     )
     def reset_filters(_n_clicks):
-        year_from, year_to, country, _scope, _powertrains = _defaults()
+        year_from, year_to, country, _scope = _defaults()
         return year_from, year_to, country
 
     @app.callback(
@@ -88,67 +87,6 @@ def register_callbacks(app) -> None:
         )
 
     @app.callback(
-        Output("filter-powertrain", "data"),
-        Input("pt-bev", "n_clicks"),
-        Input("pt-phev", "n_clicks"),
-        Input("pt-hev", "n_clicks"),
-        Input("pt-petrol", "n_clicks"),
-        Input("pt-diesel", "n_clicks"),
-        Input("reset-filters", "n_clicks"),
-        State("filter-powertrain", "data"),
-        prevent_initial_call=True,
-    )
-    def update_powertrain_store(_bev, _phev, _hev, _petrol, _diesel, _reset, current):
-        trigger = ctx.triggered_id
-        if trigger == "reset-filters":
-            return DEFAULT_POWERTRAINS
-
-        value_by_button = {
-            "pt-bev": "BEV",
-            "pt-phev": "PHEV",
-            "pt-hev": "HEV",
-            "pt-petrol": "ICE_Petrol",
-            "pt-diesel": "ICE_Diesel",
-        }
-        value = value_by_button.get(trigger)
-        selected = list(current or DEFAULT_POWERTRAINS)
-        if value is None:
-            return selected
-        if value in selected:
-            if len(selected) == 1:
-                return selected
-            selected.remove(value)
-            return selected
-        selected.append(value)
-        return selected
-
-    @app.callback(
-        Output("pt-bev", "className"),
-        Output("pt-phev", "className"),
-        Output("pt-hev", "className"),
-        Output("pt-petrol", "className"),
-        Output("pt-diesel", "className"),
-        Input("filter-powertrain", "data"),
-        prevent_initial_call=False,
-    )
-    def update_powertrain_classes(selected):
-        selected = set(selected or DEFAULT_POWERTRAINS)
-
-        def cls(key: str) -> str:
-            return (
-                f"powertrain-button powertrain-button--{key.lower().replace('_', '-')}"
-                f"{' active' if key in selected else ''}"
-            )
-
-        return (
-            cls("BEV"),
-            cls("PHEV"),
-            cls("HEV"),
-            cls("ICE_Petrol"),
-            cls("ICE_Diesel"),
-        )
-
-    @app.callback(
         Output("kpi-cards-container", "children"),
         Output("chart-powertrain-trend", "figure"),
         Output("chart-market-mix", "figure"),
@@ -162,18 +100,17 @@ def register_callbacks(app) -> None:
         Output("subtitle-market-mix", "children"),
         Output("title-country-map", "children"),
         Output("title-country-ranking", "children"),
+        Output("title-share-change", "children"),
         Input("filter-year-from", "value"),
         Input("filter-year-to", "value"),
         Input("filter-country", "value"),
         Input("filter-scope", "data"),
-        Input("filter-powertrain", "data"),
         prevent_initial_call=False,
     )
-    def update_dashboard(year_from, year_to, country, scope, powertrains):
+    def update_dashboard(year_from, year_to, country, scope):
         data = load_all()
         years = available_actual_years(data)
         start, end = normalize_year_range(year_from, year_to, years)
-        selected_powertrains = powertrains or ["BEV"]
         scope = scope or DEFAULT_SCOPE
         country = country or ALL_COUNTRIES
 
@@ -187,18 +124,19 @@ def register_callbacks(app) -> None:
 
         return (
             build_kpi_cards(summary),
-            build_powertrain_chart(agg, selected_powertrains, start, end, chart_type="volume", height=_CHART_H_PRIMARY),
-            build_market_mix_chart(summary, height=_CHART_H_PRIMARY),
-            build_share_change_chart(summary, height=_CHART_H_PRIMARY),
+            build_powertrain_chart(agg, DEFAULT_POWERTRAINS, start, end, chart_type="volume"),
+            build_market_mix_chart(summary),
+            build_share_change_chart(summary),
             build_map_chart(countries_for_year, "electrified_share_pct"),
             build_country_ranking_table(countries_for_year, metric="electrified_share_pct", count=10),
-            build_market_value_chart(value_df, start, end, height=_CHART_H_BOTTOM),
-            build_forecast_chart(data.get("forecast"), year_from=start, height=_CHART_H_BOTTOM),
+            build_market_value_chart(value_df, start, end),
+            build_forecast_chart(data.get("forecast"), year_from=start),
             f"Vehicle Registrations by Powertrain ({start}-{end})",
             f"Current Market Mix ({actual_year})",
             selected.short,
             f"Electrified Vehicle Adoption by Country ({actual_year})",
             f"Top 10 vs Bottom 10 Countries by Electrified Share ({actual_year})",
+            f"Powertrain Share Change ({actual_year - 1} → {actual_year})",
         )
 
     @app.callback(

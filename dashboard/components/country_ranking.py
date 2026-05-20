@@ -196,26 +196,40 @@ def build_country_ranking_table(
     df: pd.DataFrame | None,
     metric: str = "electrified_share_pct",
     count: int = 10,
+    ascending: bool = False,
 ) -> html.Div:
     if df is None or df.empty or metric not in df.columns:
         return html.Div("No country ranking data available", className="empty-state")
 
+    # Sort descending first to assign ranks (rank 1 = highest share)
     data = df.dropna(subset=[metric]).sort_values(metric, ascending=False).copy()
+    data = data.reset_index(drop=True)
+    data["_rank"] = data.index + 1  # 1 = highest share
     if data.empty:
         return html.Div("No country ranking data available", className="empty-state")
 
-    top = data.head(count).reset_index(drop=True)
-    bottom = data.tail(count).sort_values(metric, ascending=True).reset_index(drop=True)
     max_value = max(float(data[metric].max()), 1)
+    total = len(data)
 
-    def rows(frame: pd.DataFrame, kind: str, start_rank: int = 1) -> list[html.Div]:
+    # Slice top/bottom, then apply display sort direction
+    top = data.head(count).copy()
+    bottom = data.tail(count).copy()
+
+    if ascending:
+        # Show within each group: lowest value at top
+        top = top.sort_values(metric, ascending=True).reset_index(drop=True)
+        bottom = bottom.sort_values(metric, ascending=False).reset_index(drop=True)
+    else:
+        # Show within each group: highest value at top (default)
+        top = top.sort_values(metric, ascending=False).reset_index(drop=True)
+        bottom = bottom.sort_values(metric, ascending=True).reset_index(drop=True)
+
+    def rows(frame: pd.DataFrame, kind: str) -> list[html.Div]:
         built = []
-        for idx, row in frame.iterrows():
+        for _, row in frame.iterrows():
             value = float(row[metric])
             width = max(6, min(100, value / max_value * 100))
-            rank = start_rank + idx
-            if kind == "bottom":
-                rank = len(data) - idx
+            rank = int(row["_rank"])
             built.append(
                 html.Div(
                     className="ranking-row",
@@ -245,7 +259,7 @@ def build_country_ranking_table(
                         className="ranking-heading ranking-heading--top",
                         children=[html.Span("Top 10"), html.Span("Share")],
                     ),
-                    *rows(top, "top", 1),
+                    *rows(top, "top"),
                 ],
             ),
             html.Div(
@@ -256,6 +270,7 @@ def build_country_ranking_table(
                         children=[html.Span("Bottom 10"), html.Span("Share")],
                     ),
                     *rows(bottom, "bottom"),
+
                 ],
             ),
         ],

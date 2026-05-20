@@ -120,21 +120,10 @@ def _filter_bar(years: list[int], countries: list[dict]) -> html.Div:
             type="button",
         )
 
-    def powertrain_button(button_id: str, label: str, value: str) -> html.Button:
-        active = value in DEFAULT_POWERTRAINS
-        return html.Button(
-            label,
-            id=button_id,
-            className=f"powertrain-button powertrain-button--{value.lower().replace('_', '-')}"
-            f"{' active' if active else ''}",
-            type="button",
-        )
-
     return html.Div(
         className="filter-panel",
         children=[
             dcc.Store(id="filter-scope", data=DEFAULT_SCOPE),
-            dcc.Store(id="filter-powertrain", data=DEFAULT_POWERTRAINS),
             html.Div(
                 className="filter-field filter-field--years",
                 children=[
@@ -186,22 +175,6 @@ def _filter_bar(years: list[int], countries: list[dict]) -> html.Div:
                             scope_button("scope-eu27", "EU27", "EU27"),
                             scope_button("scope-major", "Major Markets", "MAJOR"),
                             scope_button("scope-europe", "All Europe", "EUROPE"),
-                        ],
-                    ),
-                ],
-            ),
-            html.Div(
-                className="filter-field filter-field--powertrain",
-                children=[
-                    html.Label("Powertrain type", className="filter-label"),
-                    html.Div(
-                        className="powertrain-control",
-                        children=[
-                            powertrain_button("pt-bev", "BEV", "BEV"),
-                            powertrain_button("pt-phev", "PHEV", "PHEV"),
-                            powertrain_button("pt-hev", "HEV", "HEV"),
-                            powertrain_button("pt-petrol", "Petrol", "ICE_Petrol"),
-                            powertrain_button("pt-diesel", "Diesel", "ICE_Diesel"),
                         ],
                     ),
                 ],
@@ -266,7 +239,7 @@ def build_layout() -> html.Div:
                         children=[
                             _panel(
                                 f"Vehicle Registrations by Powertrain ({year_from}-{year_to})",
-                                "Actual registrations — select powertrains above to filter",
+                                "Annual registrations by powertrain type",
                                 _graph(
                                     "chart-powertrain-trend",
                                     build_powertrain_chart(
@@ -292,13 +265,14 @@ def build_layout() -> html.Div:
                                 panel_id="market-mix",
                             ),
                             _panel(
-                                "Change in Powertrain Share vs Previous Year",
-                                "Percentage-point movement",
+                                f"Powertrain Share Change ({summary['year'] - 1} → {summary['year']})",
+                                "Percentage-point movement vs previous year",
                                 _graph(
                                     "chart-share-change",
                                     build_share_change_chart(summary, height=_CHART_H_PRIMARY),
                                     _CHART_H_PRIMARY,
                                 ),
+                                title_id="title-share-change",
                                 panel_id="share-change",
                             ),
                         ],

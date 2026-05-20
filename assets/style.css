@@ -191,7 +191,7 @@ input {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow-soft);
   display: grid;
-  grid-template-columns: 240px 250px minmax(310px, 1fr) minmax(400px, 1.7fr) 110px;
+  grid-template-columns: 200px 220px minmax(310px, 1fr) 90px;
   gap: 14px;
   align-items: end;
   flex: 0 0 auto;
@@ -774,15 +774,7 @@ input {
 
 @media (max-width: 1500px) {
   .filter-panel {
-    grid-template-columns: 220px 250px 1fr;
-  }
-
-  .filter-field--powertrain {
-    grid-column: 1 / span 2;
-  }
-
-  .reset-button {
-    grid-column: 3;
+    grid-template-columns: 200px 220px 1fr 90px;
   }
 
   .kpi-grid {
