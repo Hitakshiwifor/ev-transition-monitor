@@ -39,7 +39,7 @@ data/
 
 | Layer  | Script                                          | Output                        |
 |--------|-------------------------------------------------|-------------------------------|
-| Bronze | `pipeline/bronze/fetch_eurostat.py`             | `eurostat_road_eqr_carpda_*.json` |
+| Bronze | `pipeline/bronze/fetch_sources.py`              | `eurostat_road_eqr_carpda_*.json`, OWID CSV, IEA XLSX, ACEA JSON |
 | Silver | `pipeline/silver/transform_registrations.py`    | `registrations_annual.parquet`    |
 | Gold   | `pipeline/gold/build_analytics.py`              | `eu_annual.parquet`, `kpi_snapshot.json` |
 
@@ -109,6 +109,7 @@ Automotive Dashboard Tool/
 │   ├── silver/              ← Cleaned Parquet files
 │   └── gold/                ← Dashboard-ready aggregates
 ├── pipeline/
+│   ├── bronze/fetch_sources.py
 │   ├── bronze/fetch_eurostat.py
 │   ├── silver/transform_registrations.py
 │   └── gold/build_analytics.py
